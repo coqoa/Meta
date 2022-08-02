@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Meta Clone Coding.
+          Meta Clone Coding..
         </p>
         <a
           className="App-link"
