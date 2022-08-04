@@ -5,22 +5,32 @@ function Home() {
     let [lists, setLists] = useState([]);
     let [pages, setPages] = useState(1);
     let [searchValue, setSearchValue] = useState('');
-    let [sorts, setSorts] = useState('updated')//created, updated, pushed (lasted update), full_name
+    let [sorts, setSorts] = useState('')//created, updated, pushed (lasted update), full_name
     let [directions, setDirections] = useState('asc')// asc, desc
 
     const getLists = async() => {
         const response = await fetch(
+        // `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100&page=${pages}`
         `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100&page=${pages}`
-        )
+        ,{
+            headers:{
+                Authorization : "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"
+            }
+        })
+        
         const json = await response.json();
-        console.log('제이슨랭스',json.length)
-        // console.log('제이슨',json)
+        // json.filter(e => {
+        //     if(e.name.toLowerCase().includes(searchValue.toLowerCase())){
+        //         console.log('e',e)
+        //         return(e)
+        //     }
+        // })
         setLists(json)
     }
 
     useEffect(()=>{
         getLists();
-    },[pages]);
+    },[searchValue, pages]);
 
     // function directionChange() {
     //     if(directions == 'asc'){
@@ -40,30 +50,26 @@ function Home() {
             {/* <button onClick={()=>directionChange()}>{directions == 'asc' ? "Sort DESC" : "Sort ASC"}</button> */}
         </div>
 
-        {lists.filter((e)=>{
-            if(searchValue == ''){
-                // console.log('true',e)
-                return(e)
-            }else if (e.name.toLowerCase().includes(searchValue.toLowerCase())){
-                // console.log('false',e)
-                return(e)
-            }
-        }).map(data => {
-            // return <p>
-            //     {data.name}
-            //     </p>
-            return <List 
-                key={data.name}
-                url={data.html_url}
-                name={data.name}
-                visibility={data.visibility}
-                description={data.description}
-                topics={data.topics}
-                language={data.language}
-                star={data.stargazers_count}
-                updatedTime={data.updated_at}
-            />
-        })}
+        {lists.filter((filterResult)=>{
+                if(searchValue == ''){
+                    return(filterResult)
+                }else if (filterResult.name.toLowerCase().includes(searchValue.toLowerCase())){
+                    return(filterResult)
+                }
+            }).map(data => {
+                return <List 
+                    key={data.name}
+                    url={data.html_url}
+                    name={data.name}
+                    visibility={data.visibility}
+                    description={data.description}
+                    topics={data.topics}
+                    language={data.language}
+                    star={data.stargazers_count}
+                    updatedTime={data.updated_at}
+                />
+            })
+        }
         
         {/* {lists.map((list) => 
             <List 
