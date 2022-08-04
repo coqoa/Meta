@@ -5,49 +5,67 @@ function Home() {
     let [lists, setLists] = useState([]);
     let [pages, setPages] = useState(1);
     let [searchValue, setSearchValue] = useState('');
-    let [sorts, setSorts] = useState('stargazers')//created, updated, pushed (lasted update), full_name
+    let [sorts, setSorts] = useState('updated')//created, updated, pushed (lasted update), full_name
     let [directions, setDirections] = useState('asc')// asc, desc
+
     const getLists = async() => {
         const response = await fetch(
-        // `https://api.github.com/orgs/facebook/repos?sort=updated&direction=desc&per_page=5&page=1`
-        // `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=10&page=${pages}`
-        `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&page=${pages}`
+        `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100&page=${pages}`
         )
         const json = await response.json();
+        console.log('제이슨랭스',json.length)
+        // console.log('제이슨',json)
         setLists(json)
     }
+
     useEffect(()=>{
         getLists();
-        console.log(sorts, directions)
-    },[pages, searchValue, sorts, directions]);
+    },[pages]);
 
-    function directionChange() {
-        if(directions == 'asc'){
-            setDirections('desc')
-        }else{
-            setDirections('asc')
-        }
-    };
-    
-    function searchValueList(e) {
-        setSearchValue(e)
-        // console.log(e)
-        lists.filter((e)=>{
-            
-        })
-    }
+    // function directionChange() {
+    //     if(directions == 'asc'){
+    //         setDirections('desc')
+    //     }else{
+    //         setDirections('asc')
+    //     }
+    // };
     
     return (
         <div>
         <h2>Meta</h2>
         <div>Repositories</div>
         <div>
-            <input value={searchValue} type="text" onChange={(e)=> searchValueList(e.target.value)}/>
+            <input value={searchValue} type="text" onChange={(e)=> setSearchValue(e.target.value)}/>
             <span> Language</span>
-            <button onClick={()=>directionChange()}>{directions == 'asc' ? "Sort DESC" : "Sort ASC"}</button>
+            {/* <button onClick={()=>directionChange()}>{directions == 'asc' ? "Sort DESC" : "Sort ASC"}</button> */}
         </div>
 
-        {lists.map((list) => 
+        {lists.filter((e)=>{
+            if(searchValue == ''){
+                // console.log('true',e)
+                return(e)
+            }else if (e.name.toLowerCase().includes(searchValue.toLowerCase())){
+                // console.log('false',e)
+                return(e)
+            }
+        }).map(data => {
+            // return <p>
+            //     {data.name}
+            //     </p>
+            return <List 
+                key={data.name}
+                url={data.html_url}
+                name={data.name}
+                visibility={data.visibility}
+                description={data.description}
+                topics={data.topics}
+                language={data.language}
+                star={data.stargazers_count}
+                updatedTime={data.updated_at}
+            />
+        })}
+        
+        {/* {lists.map((list) => 
             <List 
                 key={list.name}
                 url={list.html_url}
@@ -59,7 +77,7 @@ function Home() {
                 star={list.stargazers_count}
                 updatedTime={list.updated_at}
             />
-        )}
+        )} */}
 
         <div>
             <div>현재 페이지 : {pages}</div>

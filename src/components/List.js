@@ -29,7 +29,7 @@ List.propTypes = {
   visibility: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   topics: PropTypes.arrayOf(PropTypes.string).isRequired,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.string,
   star: PropTypes.number.isRequired,
   updatedTime: PropTypes.string.isRequired
 };
