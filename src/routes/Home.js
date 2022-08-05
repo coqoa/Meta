@@ -1,89 +1,95 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Dropdown from '../components/Dropdown';
 import List from '../components/List';
+import "../styles/style.css"
 
 function Home() {
-    let [lists, setLists] = useState([]);
-    let [pages, setPages] = useState(1);
-    let [searchValue, setSearchValue] = useState('');
-    let [sorts, setSorts] = useState('')//created, updated, pushed (lasted update), full_name
-    let [directions, setDirections] = useState('desc')// asc, desc
+    const [lists, setLists] = useState([]);
+    const [listView, setListView] = useState([])
+    const [pages, setPages] = useState(0);
+    const [searchValue, setSearchValue] = useState('');
+    const [sorts, setSorts] = useState('')//created, updated, pushed (lasted update), full_name
+    const [language, setLanguage] = useState('')//created, updated, pushed (lasted update), full_name
+    const [directions, setDirections] = useState('desc')// asc, desc
+    const [sortSelected, setSortSelected] = useState('')
+
+    const sortList = ['created', 'updated', 'pushed', 'full_name']
+    const languageList = ['All', 'C', 'C++', 'Go', 'Hack', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Jupyter Notebook', 'Kotlin', 'Objective-C', 'Objective-C++', 'OCaml', 'PHP', 'Python', 'Ruby', 'Rust', 'Swift', 'TypeScript']
 
     const getLists = async() => {
         const response = await fetch(
-        `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100&page=${pages}`
-        // `https://api.github.com/orgs/facebook/repos?per_page=100&page=${pages}`
+        `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100`
         ,{
             headers:{
                 Authorization : "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"
             }
         })
+
         const json = await response.json();
-        const filteredJson = await json.filter(data => {
+        // 검색어 필터
+        const searchFilter = await json.filter(data => {
             if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
                 return(data)
             }
         })
-        const sliceJson = (e) =>{
-            if(e==0){
-                return filteredJson.slice(0,9)
-            }else if(e==1){
-                return filteredJson.slice(10,19)
-            }else if(e==2){
-                return filteredJson.slice(20,29)
-            }else if(e==3){
-                return filteredJson.slice(30,39)
+        // 언어 필터
+        const langFilter = await searchFilter.filter(filt => {
+            if(language === '' || language === 'All'){
+                return searchFilter
+            }else if(filt.language === language){
+                return filt
             }
-        }
-        setLists(sliceJson(0))
+        })
 
-        // console.log('객체',Object.keys(filteredJson)[0]) // 객체 첫번째 키 가져오기
-        // console.log('객체',filteredJson[Object.keys(filteredJson)[0]]) // 객체 첫번째 값 가져오기
-        // console.log('타입', typeof(filteredJson))
-        // console.log('랭스', filteredJson.length)
+        setLists(langFilter);
+        setListView(langFilter.slice(0,10));
     }
 
+    const sliceJson = (e) =>{
+        const listSlice = [lists.slice(0,10), lists.slice(10,20), lists.slice(20,30), lists.slice(30,40), ]
+        setPages(e)
+        // console.log(listSlice[e])
+        return setListView(listSlice[e])
+        // if(e===1){
+        //     return setListView(lists.slice(0,10))
+        // }else if(e===2){
+        //     return setListView(lists.slice(11,20))
+        // }else if(e===3){
+        //     return setListView(lists.slice(21,30))
+        // }else if(e===4){
+        //     return setListView(lists.slice(31,40))
+        // }
+        
+    }
+    // console.log(pages)
     useEffect(()=>{
         getLists();
-    },[searchValue, pages, directionChange]);
+    },[searchValue, sorts, directions, language]);
 
     function directionChange() {
-        if(directions == 'asc'){
+        if(directions === 'asc'){
             setDirections('desc')
         }else{
             setDirections('asc')
         }
     };
-    
+    const dropdownSort = (e) => {
+        setSorts(e)
+    }
+    const dropdownLanguage = (e) => {
+        setLanguage(e)
+    }
     return (
         <div>
         <h2>Meta Repo</h2>
-        {/* <div>Repositories</div> */}
         <div>
             <input value={searchValue} type="text" onChange={(e)=> setSearchValue(e.target.value)}/>
             <span> Language</span>
             <button onClick={()=>directionChange()}>{directions == 'asc' ? "Sort DESC" : "Sort ASC"}</button>
+            <Dropdown title={'Sort'} list={sortList} selected={sortSelected} setSelected={setSortSelected} propFunction={dropdownSort}/>
+            <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
         </div>
-        {/* {lists.filter((filterResult)=>{
-                if(searchValue == ''){
-                    return(filterResult)
-                }else if (filterResult.name.toLowerCase().includes(searchValue.toLowerCase())){
-                    return(filterResult)
-                }
-            }).map(data => {
-                return <List 
-                    key={data.name}
-                    url={data.html_url}
-                    name={data.name}
-                    visibility={data.visibility}
-                    description={data.description}
-                    topics={data.topics}
-                    language={data.language}
-                    star={data.stargazers_count}
-                    updatedTime={data.updated_at}
-                />
-            })
-        } */}
-        {lists.map((list) => 
+        {listView.map((list) => 
             <List 
                 key={list.name}
                 url={list.html_url}
@@ -98,14 +104,14 @@ function Home() {
         )}
 
         <div>
-            <div>현재 페이지 : {pages}</div>
+            <div>현재 페이지 : {pages+1}</div>
             <div>
-                <button onClick={()=>{pages > 0 && setPages(pages-1)}}>Previous</button>
-                <button onClick={()=>{setPages(1)}}>1</button>
-                <button onClick={()=>{setPages(2)}}>2</button>
-                <button onClick={()=>{setPages(3)}}>3</button>
-                <button onClick={()=>{setPages(4)}}>4</button>
-                <button onClick={()=>{pages < 4 && setPages(pages+1)}}>Next</button>
+                <button onClick={()=>{pages > 0 && sliceJson(pages-1)}}>Previous</button>
+                <button onClick={()=>{sliceJson(0)}}>1</button>
+                <button onClick={()=>{sliceJson(1)}}>2</button>
+                <button onClick={()=>{sliceJson(2)}}>3</button>
+                <button onClick={()=>{sliceJson(3)}}>4</button>
+                <button onClick={()=>{pages < 3 && sliceJson(pages+1)}}>Next</button>
             </div>
         </div>
         </div>
