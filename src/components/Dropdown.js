@@ -23,20 +23,7 @@ function Dropdown(props){
                         >
                             {sortList}
                         </div>    
-                        ))}
-                    
-                    {/* <div className="dropdown-item" onClick={(e)=>chooseType(e.target.textContent)}>
-                        created
-                    </div>
-                    <div className="dropdown-item"  onClick={(e)=>chooseType(e.target.textContent)}>
-                        updated
-                    </div>
-                    <div className="dropdown-item"  onClick={(e)=>chooseType(e.target.textContent)}>
-                        pushed
-                    </div>
-                    <div className="dropdown-item"  onClick={(e)=>chooseType(e.target.textContent)}>
-                        full_name
-                    </div> */}
+                    ))}
                 </div>
             )}
         </div>

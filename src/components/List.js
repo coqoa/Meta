@@ -1,24 +1,37 @@
 import PropTypes from "prop-types"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faCodeFork } from "@fortawesome/free-solid-svg-icons";
 
 function List({url, name, visibility, description, topics, language, star, updatedTime}){
+    const lang = (e) =>{
+      if (e){
+        return '●'
+      }else{
+        return ''
+      }
+    }
+    
     return (
-        <div>
+        <div className="list-shell">
           <h3>
             <a href={url} target="_blank">{name}</a>
             <span>{visibility}</span>
           </h3>
           
-          <p>내용 : {description}</p>
-          <p>토픽 : 
+          <p className="list-description">{description}</p>
+          <p> 
             {topics.map( topic => 
               <span key={topic}>{topic}</span>)
             }
           </p>
-          <p>
-            <span> 언어 : {language}</span>
-            <span> 별 : {star}</span>
-            <span> 업데이트 시간 : {updatedTime}</span>
-          </p>
+          <div className="lang-shell">
+
+            <span><span className={language}>{lang(language)}</span> {language}</span>
+            <span> ☆ {star}</span>
+            <span> updated {updatedTime}</span>
+          </div>
         </div>
     );
 }

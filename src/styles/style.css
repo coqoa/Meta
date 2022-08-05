@@ -5,39 +5,111 @@
 }
 body{
     background-color: #fcfcfc;
+    text-align: center;
 }
 .container {
-    width: 100%;
-    height: 100vh;
+    width: 70%;
+    display: inline-block;
+    /* background-color: red; */
 }
-.dropdown{
-    width: 400px;
-    user-select: none;
-    margin: 100px auto;
-    position: relative;
+h2 {
+    margin: 50px;
 }
-.dropdown .dropdown-btn {
+.contents-shell{
+    /* background-color: blue; */
+    height: 40%;
+    text-align: left;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+
+
+.list-description{
+    margin: 10px 0px;
+}
+
+.list-shell{
+    border-bottom: 1px solid lightgray;
     padding: 15px 20px;
-    background-color: #fff;
-    box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06);
-    font-weight: bold;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+}
+.list-shell h3 {
+    padding: 5px;
+}
+.list-shell h3 a{
+    text-decoration: none;
+    font-size: 25px;
+}
+.list-shell h3 a:hover{
+    text-decoration: underline;
+}
+.list-shell h3 a:active{
+    color: black;
+}
+.list-shell h3 span{
+    font-size: 15px;
+    text-align: center;
+    vertical-align: text-top;
+    margin-left: 10px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    padding: 2px 6px;
+    
+}
+
+.sort-shell div,input {
+    margin: 0px 10px 10px 0px;
+    /* background-color: red; */
+
+}
+.sort-btn{
+    display: inline-block;
+}
+.search-bar {
+    padding: 4px 0px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    outline: 0;
+
+    /* border-radius: 5px; */
+}
+
+.dropdown{
+    display: inline-block;
+    /* margin: 10px auto; */
+    position: relative;
+    /* background-color: red; */
+    
+}
+.dropdown .dropdown-btn, .sort-btn{
+    /* padding: 15px 20px; */
+    /* background-color: #fff; */
+    /* box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06); */
+    /* font-weight: bold; */
+    /* color: #333; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    /* cursor: pointer; */
+    width: 80px;
+    user-select: none;
+    font-size: 14px;
+    padding: 3px 0px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    /* background-color: lightgray; */
 }
 
 .dropdown .dropdown-content {
     position: absolute;
     top: 110%;
     left: 0;
-    padding: 10px;
+    padding: 5px;
     background-color: #fff;
     box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06);
     font-weight: 500;
     color: #333;
-    width: 95%;
+    width: 200%;
 }
 .dropdown .dropdown-content .dropdown-item{
     padding: 10px;
@@ -47,4 +119,89 @@ body{
 .dropdown .dropdown-content .dropdown-item:hover{
     background: #f4f4f4;
 
+}
+
+
+.btn-shell{
+ padding: 20px;
+}
+.btn-section div{
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 5px ;
+    border: 1px solid lightgray;
+    font-size: 15px;
+    border-radius: 5px;
+    user-select: none;
+}
+.prev-btn, .next-btn {
+    width: 90px;
+    vertical-align: middle;
+}
+.num-btn{
+    width: 20px;
+}
+.btn-section div:hover{
+    background-color: lightgray;
+}
+.lang-shell>span{
+    font-size: 18px;
+}
+/* language DOT */
+.C{
+    color: #555555;
+}
+/* .C++{
+    color: #f34b7d;
+} */
+.Go{
+    color: #00ADD8;
+}
+.Hack{
+    color: #878787;
+}
+.Haskell{
+    color: #5e5086;
+}
+.HTML{
+    color: #e34c26;
+}
+.Java{
+    color: #b07219;
+}
+.JavaScript{
+    color: #f1e05a;
+}
+/* .Jupyter Notebook {
+    color: #DA5B0B;
+} */
+.Kotlin{
+    color: #A97BFF;
+}
+.Objective-C{
+    color: #438eff;
+}
+/* .Objective-C++{
+    color: #6866fb;
+} */
+.OCaml{
+    color: #3be133;
+}
+.PHP{
+    color: #4F5D95;
+}
+.Python{
+    color: #3572A5;
+}
+.Ruby{
+    color: #701516;
+}
+.Rust{
+    color: #dea584;
+}
+.Swift{
+    color: #F05138;
+}
+.TypeScript{
+    color: #3178c6;
 }
