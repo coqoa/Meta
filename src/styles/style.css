@@ -3,6 +3,8 @@
     padding: 0;
     font-family: sans-serif;
 }
+
+/* Home.js */
 body{
     background-color: #fcfcfc;
     text-align: center;
@@ -15,75 +17,80 @@ body{
 h2 {
     margin: 50px;
 }
+
+/*  */
+
+.sort-shell div,input {
+    /* margin: 0px 10px 10px 0px; */
+
+}
+.search-bar {
+    padding: 1px 0px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    outline: 0;
+    /* margin-right: 10px; */
+
+}
+
+.search-bar input{
+    /* border:0; */
+    /* background-color: #555555; */
+}
+.sort-btn, .clear-btn{
+    display: inline-block;
+    cursor: pointer;
+}
+.clear-btn{
+    background-color: #7db9fd;
+    color: white;
+}
+.clear-btn:hover{
+    background-color: #0969da;
+}
+
+/*  */
+
 .contents-shell{
-    /* background-color: blue; */
     height: 40%;
     text-align: left;
     border: 1px solid lightgray;
     border-radius: 5px;
 }
 
+/*  */
 
-
-.list-description{
-    margin: 10px 0px;
+.btn-shell{
+    padding: 20px;
 }
-
-.list-shell{
-    border-bottom: 1px solid lightgray;
-    padding: 15px 20px;
-}
-.list-shell h3 {
-    padding: 5px;
-}
-.list-shell h3 a{
-    text-decoration: none;
-    font-size: 25px;
-}
-.list-shell h3 a:hover{
-    text-decoration: underline;
-}
-.list-shell h3 a:active{
-    color: black;
-}
-.list-shell h3 span{
-    font-size: 15px;
-    text-align: center;
-    vertical-align: text-top;
-    margin-left: 10px;
-    border: 1px solid lightgray;
-    border-radius: 20px;
-    padding: 2px 6px;
-    
-}
-
-.sort-shell div,input {
-    margin: 0px 10px 10px 0px;
-    /* background-color: red; */
-
-}
-.sort-btn{
+.btn-section div{
     display: inline-block;
-    cursor: pointer;
-}
-.search-bar {
-    padding: 4px 0px;
+    margin: 5px;
+    padding: 5px 5px ;
     border: 1px solid lightgray;
+    font-size: 15px;
     border-radius: 5px;
-    outline: 0;
-
-    /* border-radius: 5px; */
+    user-select: none;
 }
+.btn-section div:hover{
+    background-color: lightgray;
+}
+.prev-btn, .next-btn {
+    width: 90px;
+    vertical-align: middle;
+}
+.num-btn{
+    width: 20px;
+}
+
+/* Dropdown.js */
 
 .dropdown{
     display: inline-block;
-    /* margin: 10px auto; */
     position: relative;
-    /* background-color: red; */
     cursor: pointer;
-    
 }
-.dropdown .dropdown-btn, .sort-btn{
+.dropdown .dropdown-btn, .sort-btn, .clear-btn{
     /* padding: 15px 20px; */
     /* background-color: #fff; */
     /* box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06); */
@@ -101,6 +108,9 @@ h2 {
     border-radius: 5px;
     /* background-color: lightgray; */
 }
+.dropdown-btn:hover, .sort-btn:hover{
+    background-color: lightgray;
+}
 
 .dropdown .dropdown-content {
     position: absolute;
@@ -112,6 +122,7 @@ h2 {
     font-weight: 500;
     color: #333;
     width: 200%;
+
 }
 .dropdown .dropdown-content .dropdown-item{
     padding: 10px;
@@ -123,33 +134,70 @@ h2 {
 
 }
 
+/* List.js */
 
-.btn-shell{
- padding: 20px;
+.list-shell{
+    border-bottom: 1px solid lightgray;
+    padding: 15px 20px;
 }
-.btn-section div{
-    display: inline-block;
-    margin: 5px;
-    padding: 5px 5px ;
-    border: 1px solid lightgray;
+.list-shell h3 {
+    padding-right: 5px;
+}
+.list-shell h3 a{
+    text-decoration: none;
+    font-size: 28px;
+}
+.list-shell h3 a:hover{
+    text-decoration: underline;
+}
+.list-shell h3 a:active{
+    color: black;
+}
+.list-shell h3 span{
     font-size: 15px;
-    border-radius: 5px;
-    user-select: none;
+    text-align: center;
+    vertical-align: text-top;
+    margin-left: 10px;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    padding: 2px 6px;
 }
-.prev-btn, .next-btn {
-    width: 90px;
-    vertical-align: middle;
+.description-shell{
+    margin: 10px 0px;
 }
-.num-btn{
-    width: 20px;
+.topic-shell{
+    margin: 10px 0px;
 }
-.btn-section div:hover{
-    background-color: lightgray;
+.topic-badge{
+    padding: 4px 10px;
+    border-radius: 15px;
+    background-color: #ddf4ff;
+    color: #0969da;
+    margin-right: 8px;
 }
 .lang-shell>span{
     font-size: 18px;
+    margin-right: 10px;
 }
-/* language DOT */
+
+
+
+
+
+
+
+
+/* .search-bar .dropdown-btn{
+    border: 0;
+    border-right: 1px solid lightgray;
+    padding: 0px;
+    margin: 0px auto;
+    background-color: red;
+} */
+
+
+
+/* language DOT ---------------------------------------------------------------------------- */
 .C{
     color: #555555;
 }

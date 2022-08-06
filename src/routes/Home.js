@@ -8,11 +8,12 @@ function Home() {
     const [listView, setListView] = useState([])
     const [pages, setPages] = useState(0);
     const [searchValue, setSearchValue] = useState('');
-    const [sorts, setSorts] = useState('')
+    const [searchBy, setSearchBy] = useState('name')
+    const [sorts, setSorts] = useState('updated')
     const [language, setLanguage] = useState('')
     const [directions, setDirections] = useState('desc')
-    const [sortSelected, setSortSelected] = useState('')
-
+    // const [sortSelected, setSortSelected] = useState('')
+    const searchList = ['name', 'topic', 'description']
     const sortList = ['created', 'updated', 'pushed', 'full_name']
     const languageList = ['All', 'C', 'C++', 'Go', 'Hack', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Jupyter Notebook', 'Kotlin', 'Objective-C', 'Objective-C++', 'OCaml', 'PHP', 'Python', 'Ruby', 'Rust', 'Swift', 'TypeScript']
 
@@ -27,9 +28,24 @@ function Home() {
         const json = await response.json();
         // 검색어 필터
         const searchFilter = await json.filter(data => {
-            if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
-                return(data)
+            if(searchBy === 'name'){
+                if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
+                    return(data)
+                }
+            }else{
+                if(searchBy === 'topic'){
+                    if (JSON.stringify(data.topics).toLowerCase().includes(searchValue.toLowerCase())){
+                        return(data)
+                    }
+                }else{
+                    if (data.description.toLowerCase().includes(searchValue.toLowerCase())){
+                        return(data)
+                    }
+                }
             }
+            // if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
+            //     return(data)
+            // }
         })
         // 언어 필터
         const langFilter = await searchFilter.filter(filt => {
@@ -44,7 +60,7 @@ function Home() {
         setListView(langFilter.slice(0,10));
 
         
-        console.log(localStorage.getItem('searchValue'))
+        // console.log(localStorage.getItem('searchValue'))
     }
     
     const sliceJson = (e) =>{
@@ -55,7 +71,7 @@ function Home() {
     
     useEffect(()=>{
         getLists();
-    },[searchValue, sorts, directions, language]);
+    },[searchValue, sorts, directions, language, searchBy]);
 
     // localStorage.setItem('searchValue',searchValue)
     // localStorage.setItem('sorts',sorts)
@@ -75,15 +91,31 @@ function Home() {
     const dropdownLanguage = (e) => {
         setLanguage(e)
     }
+    const dropdownSearch = (e) => {
+        setSearchBy(e)
+    }
+    const clearFilter = () => {
+
+        setPages(0)
+        setSearchValue('')
+        setSorts('')
+        setLanguage('')
+        setDirections('desc')
+    }
+
     return (
         <div className='body'>
             <div className='container'>
                 <h2>Meta Repo</h2>
                 <div className='sort-shell'>
-                    <input className='search-bar' value={searchValue} type="text" placeholder='🔎 Find a repository' onChange={(e)=> setSearchValue(e.target.value)}/>
-                    <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "ASC" : "DESC"}</div>
-                    <Dropdown title={'Sort'} list={sortList} propFunction={dropdownSort}/>
+                    <span className='search-bar'>
+                        <Dropdown title={searchBy} list={searchList} propFunction={dropdownSearch}/>
+                        <input  value={searchValue} type="text" placeholder='Find a repository' onChange={(e)=> setSearchValue(e.target.value)}/>
+                    </span>
+                    <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "Ascending" : "Descending"}</div>
+                    <Dropdown title={sorts} list={sortList} propFunction={dropdownSort}/>
                     <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
+                    <div className='clear-btn' onClick={()=>clearFilter()}> Filter Clear </div>
                 </div>
                 <div className='contents-shell'>
                     {listView.map((list) => 

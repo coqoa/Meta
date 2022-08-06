@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 function List({url, name, visibility, description, topics, language, star, updatedTime}){
   const [timer, setTimer] = useState('00:00:00');
+    const [years, setYears] = useState();
     const [months, setMonths] = useState();
     const [days, setDays] = useState();
     const [hours, setHours] = useState();
@@ -14,16 +15,17 @@ function List({url, name, visibility, description, topics, language, star, updat
 
     const currentTimer = () =>{
       const date = new Date();
-      const years = String(date.getFullYear())
-      const months = String(date.getMonth()+1).padStart(2,"0")
-      const days = String(date.getDay()).padStart(2,"0")
-      const hours = String(date.getHours()).padStart(2,"0")
-      const minutes = String(date.getMinutes()).padStart(2,"0")
-      const seconds = String(date.getSeconds()).padStart(2,"0")
-      setTimer(`${years}-${months}-${days}T${hours}:${minutes}:${seconds}Z`)
-      setMonths(`${months}`)
-      setDays(`${days}`)
-      setHours(`${hours}`)
+      const year = String(date.getFullYear());
+      const month = String(date.getMonth()+1).padStart(2,"0");
+      const day = String(date.getDate()).padStart(2,"0");
+      const hour = String(date.getHours()).padStart(2,"0");
+      const minute = String(date.getMinutes()).padStart(2,"0");
+      const second = String(date.getSeconds()).padStart(2,"0");
+      setTimer(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
+      setYears(year)
+      setMonths(month)
+      setDays(parseInt(day))
+      setHours(parseInt(hour))
     }
     const lang = (e) =>{
       if (e){
@@ -35,35 +37,30 @@ function List({url, name, visibility, description, topics, language, star, updat
     useEffect(()=>{
       currentTimer()
       updatedTimer()
-    },[months, days, hours])
-    //업데이트
-    // console.log('월',updatedTime.slice(5,7)) //월
-    // console.log('일',updatedTime.slice(8,10)) //일
-    // console.log('시',updatedTime.slice(11,13)) //일
-
-    // console.log('업데이트월',updatedTime.slice(5,7)-months)
-    // console.log('업데이트일',updatedTime.slice(8,10)-days)
-    // console.log('업데이트시',updatedTime.slice(11,13)-hours)
+    },[months, days, hours, updated])
 
     const updatedTimer = () => {
-      const updatedMonths = months-updatedTime.slice(5,7);
-      const updatedDays = days-updatedTime.slice(8,10);
-      const updatedHours = hours-updatedTime.slice(11,13);
 
-      if(updatedMonths === 0){
-        console.log('months : 0')
-        if(updatedDays === 0){
-          console.log('days : 0')
-          setUpdated('updated '+updatedHours+' hours ago')
+
+      const updatedYears = updatedTime.slice(0,4);//string
+      const updatedMonths = updatedTime.slice(5,7);//string
+      const updatedDays = parseInt(updatedTime.slice(8,10));//number
+      const updatedHours = parseInt(updatedTime.slice(11,13));//number
+      
+      if(updatedYears === years){
+        if(updatedMonths === months){
+          if(updatedDays === days){
+            setUpdated('update '+(hours-updatedHours)+' hours ago')
+          }else{
+            setUpdated('update '+ (days-updatedDays)+' days ago')
+          }
         }else{
-          setUpdated('updated '+updatedDays+' days ago')
+          setUpdated('updated '+updatedYears+' / '+updatedMonths)
         }
       }else{
-        setUpdated('updated '+updatedMonths+' months ago')
+        setUpdated('updated '+updatedYears+' / '+updatedMonths)
       }
     }
-
-   
     return (
         <div className="list-shell">
           <h3>
@@ -71,25 +68,22 @@ function List({url, name, visibility, description, topics, language, star, updat
             <span>{visibility}</span>
           </h3>
           
-          <p className="list-description">{description}</p>
-          <p> 
+          <p className="description-shell">{description}</p>
+          <p className="topic-shell"> 
             {topics.map( topic => 
-              <span key={topic}>{topic}</span>)
+              <span key={topic} className="topic-badge">{topic}</span>)
             }
           </p>
           <div className="lang-shell">
 
             <span><span className={language}>{lang(language)}</span> {language}</span>
             <span> ☆ {star}</span>
-            <span> updated {updatedTime}</span>
-            <div> 업데이티드 : {updated}</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>
-              <div> updatedTime : {updatedTime}</div>
-              <div> today : {timer}</div>
-            </div>
+            <span> {updated} </span>
+            <div>--------</div>
+            <div>--참고--</div>
+            <div>--------</div>
+            <div>현재시간 : {timer}</div>
+            <div>업데이트 시간 : {updatedTime}</div>
           </div>
         </div>
     );
