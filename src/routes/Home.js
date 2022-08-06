@@ -81,7 +81,7 @@ function Home() {
                 <h2>Meta Repo</h2>
                 <div className='sort-shell'>
                     <input className='search-bar' value={searchValue} type="text" placeholder='🔎 Find a repository' onChange={(e)=> setSearchValue(e.target.value)}/>
-                    <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "Sort DESC" : "Sort ASC"}</div>
+                    <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "ASC" : "DESC"}</div>
                     <Dropdown title={'Sort'} list={sortList} propFunction={dropdownSort}/>
                     <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
                 </div>

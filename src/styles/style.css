@@ -64,6 +64,7 @@ h2 {
 }
 .sort-btn{
     display: inline-block;
+    cursor: pointer;
 }
 .search-bar {
     padding: 4px 0px;
@@ -79,6 +80,7 @@ h2 {
     /* margin: 10px auto; */
     position: relative;
     /* background-color: red; */
+    cursor: pointer;
     
 }
 .dropdown .dropdown-btn, .sort-btn{
