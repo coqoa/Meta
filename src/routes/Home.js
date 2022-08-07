@@ -21,7 +21,6 @@ function Home() {
 
     // API 관리함수
     const getLists = async() => {
-        console.log('통신')
         await localStor();
         // API불러오기
         const response = await fetch(
@@ -161,7 +160,6 @@ function Home() {
         localStorage.removeItem('sorts');
         localStorage.removeItem('language');
     }
-    // console.log(searchValue)
     return (
         <div className='body'>
             <div className='container'>
@@ -171,12 +169,12 @@ function Home() {
                 </div>
                 <div className='sort-shell'>
                     <span className='search-bar'>
-                        <Dropdown title={localStorage.getItem('searchBy') === null ? 'Search by' : searchBy} list={searchList} propFunction={dropdownSearch}/>
+                        <Dropdown title={localStorage.getItem('searchBy') === null ? 'Search by ▾' : searchBy} list={searchList} propFunction={dropdownSearch}/>
                         <input  value={searchValue} type="text" placeholder='Find a repository' onChange={(e)=> setSearchValue(e.target.value)}/>
                     </span>
                     <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "Ascending" : "Descending"}</div>
-                    <Dropdown title={localStorage.getItem('sorts') === null ? 'Sort by' : sorts } list={sortList} propFunction={dropdownSort}/>
-                    <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
+                    <Dropdown title={localStorage.getItem('sorts') === null ? 'Sort by ▾' : sorts } list={sortList} propFunction={dropdownSort}/>
+                    <Dropdown title={'Language ▾'} list={languageList} propFunction={dropdownLanguage}/>
                     <div className='clear-btn-section'>
                         <span className='clear-btn' onClick={()=>clearFilter()}> Filter Clear </span>
                     </div>

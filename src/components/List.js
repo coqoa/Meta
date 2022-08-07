@@ -2,7 +2,6 @@ import PropTypes from "prop-types"
 import { useEffect, useState } from "react";
 
 function List({url, name, visibility, description, topics, language, star, updatedTime}){
-  // const [timer, setTimer] = useState('00:00:00');
     const [years, setYears] = useState();
     const [months, setMonths] = useState();
     const [days, setDays] = useState();
@@ -16,9 +15,6 @@ function List({url, name, visibility, description, topics, language, star, updat
       const month = String(date.getMonth()+1).padStart(2,"0");
       const day = String(date.getDate()).padStart(2,"0");
       const hour = String(date.getHours()).padStart(2,"0");
-      // const minute = String(date.getMinutes()).padStart(2,"0");
-      // const second = String(date.getSeconds()).padStart(2,"0");
-      // setTimer(`${year}-${month}-${day}T${hour}:${minute}:${second}Z`);
       setYears(year)
       setMonths(month)
       setDays(parseInt(day))
@@ -94,7 +90,6 @@ function List({url, name, visibility, description, topics, language, star, updat
     );
 }
 List.propTypes = {
-  // key: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   visibility: PropTypes.string.isRequired,

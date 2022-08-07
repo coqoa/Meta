@@ -7,47 +7,40 @@
 /* Home.js */
 body{
     background-color: #fcfcfc;
-    text-align: center;
     color: #57606A;
+    text-align: center;
 }
 .container {
-    width: 70%;
     display: inline-block;
+    width: 70%;
 }
 .title-shell {
     margin: 20px 0px 10px 0px;
 }
 .title-text {
     display: inline-block;
-    font-size: 25px;
     vertical-align: top;
+    font-size: 25px;
 }
 .title-img{
     margin-right: 5px;
-
 }
 
-/*  */
-
+/* sort-shell */
 .sort-shell div,input {
-    /* margin: 0px 10px 10px 0px; */
     text-align: center;
-
 }
-.search-bar {;
-    /* padding: 1px 0px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    outline: 0; */
-    /* margin-right: 10px; */
+.search-bar {
 
 }
 
 .search-bar input{
+    padding: 4px 0px;
     border:0;
-    padding: 3px 0px;
     background-color: #fcfcfc;
     border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+
 }
 .search-bar .dropdown-btn{
     border: 1px solid transparent;
@@ -60,36 +53,33 @@ body{
     margin: 15px 0px;
 }
 .clear-btn{
+    padding: 2px 10px;
     background-color: #7db9fd;
     color: white;
-    padding: 2px 10px;
     border-radius: 5px;
     cursor: pointer;
-    /* width: 120px; */
 }
 .clear-btn:hover{
     background-color: #0969da;
 }
 
-/*  */
-
+/* contents-shell  */
 .contents-shell{
     height: 40%;
-    text-align: left;
     border: 1px solid lightgray;
     border-radius: 5px;
+    text-align: left;
 }
 
-/*  */
-
+/* btn-shell */
 .btn-shell{
     padding: 20px;
 }
 .btn-section div{
     display: inline-block;
     padding: 5px 5px ;
-    font-size: 14px;
     border-radius: 5px;
+    font-size: 14px;
     user-select: none;
 }
 .btn-section div:hover{
@@ -110,33 +100,23 @@ body{
 }
 
 /* Dropdown.js */
-
 .dropdown{
     display: inline-block;
     position: relative;
     cursor: pointer;
 }
 .dropdown, .sort-btn{
-    /* padding: 15px 20px; */
-    /* background-color: #fff; */
-    /* box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06); */
-    /* font-weight: bold; */
-    /* color: #333; */
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    /* cursor: pointer; */
     margin-left: 15px;
-    width: 80px;
-    user-select: none;
-    font-size: 14px;
+    width: 90px;
     padding: 3px 0px;
     border: 1px solid lightgray;
-    border-radius: 5px;
-    /* background-color: lightgray; */
+    border-radius: 15px;
+    font-size: 14px;
+    user-select: none;
 }
 .dropdown:hover, .sort-btn:hover{
-    background-color: lightgray;
+    background-color: black;
+    color: white;
 }
 
 .dropdown .dropdown-content {
@@ -144,12 +124,11 @@ body{
     top: 110%;
     left: 0;
     padding: 5px;
-    background-color: #fff;
-    box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06);
-    font-weight: 500;
-    color: #333;
     width: 200%;
-
+    background-color: #fff;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 3px 3px 10px 6px rgba(0,0,0,0.06);
 }
 .dropdown .dropdown-content .dropdown-item{
     padding: 10px;
@@ -158,21 +137,19 @@ body{
 }
 .dropdown .dropdown-content .dropdown-item:hover{
     background: #f4f4f4;
-
 }
 
 /* List.js */
-
 .list-shell{
-    border-bottom: 1px solid lightgray;
     padding: 15px 20px;
+    border-bottom: 1px solid lightgray;
 }
 .list-shell h3 {
     padding-right: 5px;
 }
 .list-shell h3 a{
-    text-decoration: none;
     font-size: 28px;
+    text-decoration: none;
 }
 .list-shell h3 a:hover{
     text-decoration: underline;
@@ -181,14 +158,14 @@ body{
     color: black;
 }
 .list-shell h3 span{
+    margin-left: 10px;
+    padding: 2px 6px;
+    vertical-align: text-top;
+    border: 1px solid lightgray;
+    border-radius: 20px;
     font-weight: 500;
     font-size: 15px;
     text-align: center;
-    vertical-align: text-top;
-    margin-left: 10px;
-    border: 1px solid lightgray;
-    border-radius: 20px;
-    padding: 2px 6px;
 }
 .description-shell{
     margin: 10px 0px;
@@ -198,36 +175,24 @@ body{
 }
 .topic-badge{
     padding: 4px 10px;
+    margin-right: 8px;
     border-radius: 15px;
     background-color: #ddf4ff;
     color: #0969da;
-    margin-right: 8px;
 }
 .bottom-shell>span{
-    font-size: 14px;
     margin-right: 20px;
+    font-size: 14px;
 }
 .bottom-shell>span>svg{
     margin-right: 3px;
 }
-
-/* .search-bar .dropdown-btn{
-    border: 0;
-    border-right: 1px solid lightgray;
-    padding: 0px;
-    margin: 0px auto;
-    background-color: red;
-} */
-
 
 
 /* language DOT ---------------------------------------------------------------------------- */
 .C{
     color: #555555;
 }
-/* .C++{
-    color: #f34b7d;
-} */
 .Go{
     color: #00ADD8;
 }
@@ -246,18 +211,12 @@ body{
 .JavaScript{
     color: #f1e05a;
 }
-/* .Jupyter Notebook {
-    color: #DA5B0B;
-} */
 .Kotlin{
     color: #A97BFF;
 }
 .Objective-C{
     color: #438eff;
 }
-/* .Objective-C++{
-    color: #6866fb;
-} */
 .OCaml{
     color: #3be133;
 }
