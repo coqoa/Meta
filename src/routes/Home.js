@@ -8,11 +8,12 @@ function Home() {
     const [listView, setListView] = useState([]);
     const [searchBy, setSearchBy] = useState(localStorage.getItem('searchBy'));
     const [searchValue, setSearchValue] = useState('');
+    const [debounceValue, setDebounceValue] = useState(searchValue);
     const [directions, setDirections] = useState(localStorage.getItem('directions'))
     const [sorts, setSorts] = useState(localStorage.getItem('sorts'))
     const [language, setLanguage] = useState(localStorage.getItem('language'))
     const [pages, setPages] = useState(0);
-
+// 디바운스 시작
     // Dropdown.js로 보내는 배열
     const searchList = ['name', 'topic', 'description']
     const sortList = ['created', 'updated', 'pushed', 'full_name']
@@ -20,6 +21,7 @@ function Home() {
 
     // API 관리함수
     const getLists = async() => {
+        console.log('통신')
         await localStor();
         // API불러오기
         const response = await fetch(
@@ -34,19 +36,19 @@ function Home() {
         // 검색어 필터
         const searchFilter = await json.filter(data => {
             if(searchBy === 'name'){
-                if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
+                if (data.name.toLowerCase().includes(debounceValue.toLowerCase())){
                     return(data)
                 }
             }else if(searchBy === 'topic'){
-                if (JSON.stringify(data.topics).toLowerCase().includes(searchValue.toLowerCase())){
+                if (JSON.stringify(data.topics).toLowerCase().includes(debounceValue.toLowerCase())){
                     return(data)
                 }
             }else if (searchBy === 'description'){
-                if (data.description.toLowerCase().includes(searchValue.toLowerCase())){
+                if (data.description.toLowerCase().includes(debounceValue.toLowerCase())){
                     return(data)
                 }
             }else if (searchBy === ''){
-                if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
+                if (data.name.toLowerCase().includes(debounceValue.toLowerCase())){
                     return(data)
                 }
             }
@@ -71,10 +73,18 @@ function Home() {
         return setListView(listSlice[e])
     }
     
+    
     useEffect(()=>{
         getLists();
-    },[searchValue, sorts, directions, language, searchBy]);
+    },[debounceValue, sorts, directions, language, searchBy]);
 
+    //input debounce 
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            return setDebounceValue(searchValue);
+        }, 500);
+        return () => clearTimeout(debounce);
+    }, [searchValue]);	
     // 순서 정렬 함수
     function directionChange() {
         if(directions === 'asc'){
@@ -151,6 +161,7 @@ function Home() {
         localStorage.removeItem('sorts');
         localStorage.removeItem('language');
     }
+    // console.log(searchValue)
     return (
         <div className='body'>
             <div className='container'>
