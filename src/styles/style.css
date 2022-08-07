@@ -34,7 +34,7 @@ body{
     text-align: center;
 
 }
-.search-bar {
+.search-bar {;
     /* padding: 1px 0px;
     border: 1px solid lightgray;
     border-radius: 5px;
@@ -46,8 +46,8 @@ body{
 .search-bar input{
     border:0;
     padding: 3px 0px;
-    /* background-color: #555555; */
-    border-bottom: 1px solid lightgray
+    background-color: #fcfcfc;
+    border-bottom: 1px solid lightgray;
 }
 .search-bar .dropdown-btn{
     border: 1px solid transparent;

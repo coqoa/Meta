@@ -5,12 +5,12 @@ import "../styles/style.css"
 
 function Home() {
     const [lists, setLists] = useState([]);
-    const [listView, setListView] = useState([])
-    const [searchBy, setSearchBy] = useState('name')
+    const [listView, setListView] = useState([]);
+    const [searchBy, setSearchBy] = useState(localStorage.getItem('searchBy'));
     const [searchValue, setSearchValue] = useState('');
-    const [directions, setDirections] = useState('desc')
-    const [sorts, setSorts] = useState('updated')
-    const [language, setLanguage] = useState('')
+    const [directions, setDirections] = useState(localStorage.getItem('directions'))
+    const [sorts, setSorts] = useState(localStorage.getItem('sorts'))
+    const [language, setLanguage] = useState(localStorage.getItem('language'))
     const [pages, setPages] = useState(0);
 
     // Dropdown.js로 보내는 배열
@@ -18,8 +18,9 @@ function Home() {
     const sortList = ['created', 'updated', 'pushed', 'full_name']
     const languageList = ['All', 'C', 'C++', 'Go', 'Hack', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Jupyter Notebook', 'Kotlin', 'Objective-C', 'Objective-C++', 'OCaml', 'PHP', 'Python', 'Ruby', 'Rust', 'Swift', 'TypeScript']
 
+    // API 관리함수
     const getLists = async() => {
-
+        await localStor();
         // API불러오기
         const response = await fetch(
         `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100`
@@ -78,32 +79,78 @@ function Home() {
     function directionChange() {
         if(directions === 'asc'){
             setDirections('desc')
+            localStorage.setItem('directions', 'desc')
         }else{
             setDirections('asc')
+            localStorage.setItem('directions', 'asc')
         }
     };
     // 분류 함수
     const dropdownSort = (e) => {
         setSorts(e)
+        localStorage.setItem('sorts', e)
     }
     // language 분류 함수
     const dropdownLanguage = (e) => {
         setLanguage(e)
+        localStorage.setItem('language', e)
     }
 
     // 검색 필터 함수
     const dropdownSearch = (e) => {
         setSearchBy(e)
-    }
-    // 필터 초기화 함수
-    const clearFilter = () => {
-        setPages(0)
-        setSearchValue('')
-        setSorts('')
-        setLanguage('')
-        setDirections('desc')
+        localStorage.setItem('searchBy', e)
     }
 
+    // 로컬스토리지 저장 함수
+    const localStor = () => {
+        const getSearchBy = () =>{
+            if(localStorage.getItem('searchBy') !== null){
+                setSearchBy(localStorage.getItem('searchBy'))
+            }else{
+                setSearchBy('name');
+                localStorage.setItem('searchBy','name')
+            }
+        }
+        const getDirections = () =>{
+            if(localStorage.getItem('directions') !== null){
+                setDirections(localStorage.getItem('directions'))
+            }else{
+                setDirections('desc');
+                localStorage.setItem('directions','desc')
+            }
+        }
+        const getSorts = () =>{
+            if(localStorage.getItem('sorts') !== null){
+                setSorts(localStorage.getItem('sorts'))
+            }else{
+                setSorts('updated');
+                localStorage.setItem('sorts','updated')
+            }
+        }
+        const getLanguage = () =>{
+            if(localStorage.getItem('language') !== null){
+                setLanguage(localStorage.getItem('language'))
+            }else{
+                setLanguage('All');
+                localStorage.setItem('language','All')
+            }
+        }
+        getSearchBy();
+        getDirections();
+        getSorts();
+        getLanguage();
+    }
+
+    // 필터 초기화 함수
+    const clearFilter = () => {
+        setPages(0);
+        setSearchValue('');
+        localStorage.removeItem('searchBy');
+        localStorage.removeItem('directions');
+        localStorage.removeItem('sorts');
+        localStorage.removeItem('language');
+    }
     return (
         <div className='body'>
             <div className='container'>
@@ -113,11 +160,11 @@ function Home() {
                 </div>
                 <div className='sort-shell'>
                     <span className='search-bar'>
-                        <Dropdown title={searchBy} list={searchList} propFunction={dropdownSearch}/>
+                        <Dropdown title={localStorage.getItem('searchBy') === null ? 'Search by' : searchBy} list={searchList} propFunction={dropdownSearch}/>
                         <input  value={searchValue} type="text" placeholder='Find a repository' onChange={(e)=> setSearchValue(e.target.value)}/>
                     </span>
                     <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "Ascending" : "Descending"}</div>
-                    <Dropdown title={sorts} list={sortList} propFunction={dropdownSort}/>
+                    <Dropdown title={localStorage.getItem('sorts') === null ? 'Sort by' : sorts } list={sortList} propFunction={dropdownSort}/>
                     <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
                     <div className='clear-btn-section'>
                         <span className='clear-btn' onClick={()=>clearFilter()}> Filter Clear </span>
