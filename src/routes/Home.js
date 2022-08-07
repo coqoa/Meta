@@ -6,18 +6,21 @@ import "../styles/style.css"
 function Home() {
     const [lists, setLists] = useState([]);
     const [listView, setListView] = useState([])
-    const [pages, setPages] = useState(0);
-    const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('name')
+    const [searchValue, setSearchValue] = useState('');
+    const [directions, setDirections] = useState('desc')
     const [sorts, setSorts] = useState('updated')
     const [language, setLanguage] = useState('')
-    const [directions, setDirections] = useState('desc')
-    // const [sortSelected, setSortSelected] = useState('')
+    const [pages, setPages] = useState(0);
+
+    // Dropdown.js로 보내는 배열
     const searchList = ['name', 'topic', 'description']
     const sortList = ['created', 'updated', 'pushed', 'full_name']
     const languageList = ['All', 'C', 'C++', 'Go', 'Hack', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Jupyter Notebook', 'Kotlin', 'Objective-C', 'Objective-C++', 'OCaml', 'PHP', 'Python', 'Ruby', 'Rust', 'Swift', 'TypeScript']
 
     const getLists = async() => {
+
+        // API불러오기
         const response = await fetch(
         `https://api.github.com/orgs/facebook/repos?sort=${sorts}&direction=${directions}&per_page=100`
         ,{
@@ -26,28 +29,29 @@ function Home() {
             }
         })
         const json = await response.json();
+
         // 검색어 필터
         const searchFilter = await json.filter(data => {
             if(searchBy === 'name'){
                 if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
                     return(data)
                 }
-            }else{
-                if(searchBy === 'topic'){
-                    if (JSON.stringify(data.topics).toLowerCase().includes(searchValue.toLowerCase())){
-                        return(data)
-                    }
-                }else{
-                    if (data.description.toLowerCase().includes(searchValue.toLowerCase())){
-                        return(data)
-                    }
+            }else if(searchBy === 'topic'){
+                if (JSON.stringify(data.topics).toLowerCase().includes(searchValue.toLowerCase())){
+                    return(data)
+                }
+            }else if (searchBy === 'description'){
+                if (data.description.toLowerCase().includes(searchValue.toLowerCase())){
+                    return(data)
+                }
+            }else if (searchBy === ''){
+                if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
+                    return(data)
                 }
             }
-            // if (data.name.toLowerCase().includes(searchValue.toLowerCase())){
-            //     return(data)
-            // }
         })
-        // 언어 필터
+
+        // language 필터
         const langFilter = await searchFilter.filter(filt => {
             if(language === '' || language === 'All'){
                 return searchFilter
@@ -55,14 +59,11 @@ function Home() {
                 return filt
             }
         })
-
         setLists(langFilter);
         setListView(langFilter.slice(0,10));
-
-        
-        // console.log(localStorage.getItem('searchValue'))
     }
     
+    // list object 페이지 분배 함수
     const sliceJson = (e) =>{
         const listSlice = [lists.slice(0,10), lists.slice(10,20), lists.slice(20,30), lists.slice(30,40), ]
         setPages(e)
@@ -73,11 +74,7 @@ function Home() {
         getLists();
     },[searchValue, sorts, directions, language, searchBy]);
 
-    // localStorage.setItem('searchValue',searchValue)
-    // localStorage.setItem('sorts',sorts)
-    // localStorage.setItem('directions',directions)
-    // localStorage.setItem('language',language)
-
+    // 순서 정렬 함수
     function directionChange() {
         if(directions === 'asc'){
             setDirections('desc')
@@ -85,17 +82,21 @@ function Home() {
             setDirections('asc')
         }
     };
+    // 분류 함수
     const dropdownSort = (e) => {
         setSorts(e)
     }
+    // language 분류 함수
     const dropdownLanguage = (e) => {
         setLanguage(e)
     }
+
+    // 검색 필터 함수
     const dropdownSearch = (e) => {
         setSearchBy(e)
     }
+    // 필터 초기화 함수
     const clearFilter = () => {
-
         setPages(0)
         setSearchValue('')
         setSorts('')
@@ -106,7 +107,10 @@ function Home() {
     return (
         <div className='body'>
             <div className='container'>
-                <h2>Meta Repo</h2>
+                <div className='title-shell'>
+                    <img className='title-img' src="https://avatars.githubusercontent.com/u/69631?s=60&amp;v=4" width="28" height="28" alt="@facebook" />
+                    <div className='title-text'>Meta Repo</div>
+                </div>
                 <div className='sort-shell'>
                     <span className='search-bar'>
                         <Dropdown title={searchBy} list={searchList} propFunction={dropdownSearch}/>
@@ -115,7 +119,9 @@ function Home() {
                     <div className='sort-btn' onClick={()=>directionChange()}>{directions == 'asc' ? "Ascending" : "Descending"}</div>
                     <Dropdown title={sorts} list={sortList} propFunction={dropdownSort}/>
                     <Dropdown title={'Language'} list={languageList} propFunction={dropdownLanguage}/>
-                    <div className='clear-btn' onClick={()=>clearFilter()}> Filter Clear </div>
+                    <div className='clear-btn-section'>
+                        <span className='clear-btn' onClick={()=>clearFilter()}> Filter Clear </span>
+                    </div>
                 </div>
                 <div className='contents-shell'>
                     {listView.map((list) => 
@@ -133,14 +139,13 @@ function Home() {
                     )}
                 </div>
                 <div className='btn-shell'>
-                    <div>현재 페이지 : {pages+1}</div>
                     <div className='btn-section'>
-                        <div className='prev-btn' onClick={()=>{pages > 0 && sliceJson(pages-1)}}>＜ Previous</div>
-                        <div className='num-btn' onClick={()=>{sliceJson(0)}}>1</div>
-                        <div className='num-btn' onClick={()=>{sliceJson(1)}}>2</div>
-                        <div className='num-btn' onClick={()=>{sliceJson(2)}}>3</div>
-                        <div className='num-btn' onClick={()=>{sliceJson(3)}}>4</div>
-                        <div className='next-btn' onClick={()=>{pages < 3 && sliceJson(pages+1)}}>Next ﹥</div>
+                        <div className='prev-btn' onClick={()=>{pages > 0 && sliceJson(pages-1)}}>◀︎ Previous</div>
+                        <div className='num-btn' onClick={()=>{sliceJson(0)}}>{pages+1 === 1 ? <span className='selected-btn'>1</span> : 1}</div>
+                        <div className='num-btn' onClick={()=>{sliceJson(1)}}>{pages+1 === 2 ? <span className='selected-btn'>2</span> : 2}</div>
+                        <div className='num-btn' onClick={()=>{sliceJson(2)}}>{pages+1 === 3 ? <span className='selected-btn'>3</span> : 3}</div>
+                        <div className='num-btn' onClick={()=>{sliceJson(3)}}>{pages+1 === 4 ? <span className='selected-btn'>4</span> : 4}</div>
+                        <div className='next-btn' onClick={()=>{pages < 3 && sliceJson(pages+1)}}>Next ▶︎</div>
                     </div>
                 </div>
             </div>
